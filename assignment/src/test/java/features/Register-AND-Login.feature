@@ -1,6 +1,6 @@
 @Ui_Test
 Feature: User Registration, Product Purchase and Payment Validation
-
+	giri@Ui_Test
   Scenario Outline: Register on the website, add product to cart, and validate payment details with different user details
   	Given I read excel file "<fileName>" and sheet "<sheetName>"
     When User is on the landing page

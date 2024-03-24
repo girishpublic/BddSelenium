@@ -2,58 +2,46 @@ package StepDefinitions;
 
 import static org.testng.Assert.*;
 
-import java.util.Collections;
 import java.util.HashMap;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.safari.SafariDriver;
-import org.openqa.selenium.safari.SafariOptions;
 import org.testng.Assert;
 
+import com.aventstack.extentreports.Status;
+
 import Utils.CommonUtility;
-import assignment.HomePage;
-import assignment.RegistrationAndLogin_PageObjects;
+import Utils.CucumberRunner;
+import Utils.ExtentManager;
 import io.cucumber.java.en.*;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import pageObjects.HomePage;
+import pageObjects.RegistrationAndLogin_PageObjects;
+import runner.RegRunner;
 
 public class RegisterAndLoginSteps extends CommonUtility {
 	WebDriver driver;
 	  HashMap<String, String> userDetails;
-	
-	
+	  
 	@Given("I read excel file {string} and sheet {string}")
 	public void i_read_excel_file_and_sheet(String excelPath, String sheetName) {
 	    // Write code here that turns the phrase above into concrete actions
-	  userDetails = excelFileToMap(excelPath, sheetName);
-	  System.out.println(userDetails);
+		userDetails = excelFileToMap(excelPath, sheetName);
+		System.out.println(userDetails);
+		RegRunner.test.log(Status.PASS, "i read excel file and sheet");
+	  
+
 	}
 
 	@When("User is on the landing page")
 	public void user_is_on_the_landing_page() {
-	    WebDriverManager.chromedriver().setup();
-	    ChromeOptions options=new ChromeOptions();
-	    options.addArguments("--remote-allow-origins=*");
-	    options.addArguments("--start-maximized");
-	    options.addArguments("--disable-dev-shm-usage");
-	    options.addArguments("--disable-extensions");
-	    options.addArguments("--disable-infobars");
-	    options.addArguments("--no-sandbox");
-	    options.addArguments("--disable-popup-blocking");
-	    options.addArguments("--disable-notifications");
-	    options.addArguments("incognito");
-	    options.setExperimentalOption("prefs", 
-	      Collections.singletonMap("profile.default_content_setting_values.autofill", 1));
-        driver = new ChromeDriver(options);
-        driver.get("https://automationteststore.com");
-        driver.manage().window().maximize();
+		// Get driver and assign it to WebDriver
+	    driver=CucumberRunner.getChromeDriver();
+	    RegRunner.test.log(Status.PASS, "User is on the landing page");
 	}
 
 	@And("User clicks Sign In")
 	public void user_clicks_sign_in() {
-	        click(RegistrationAndLogin_PageObjects.LOGIN_LINK , 10, driver);
+	    click(RegistrationAndLogin_PageObjects.LOGIN_LINK , 10, driver);
+	    RegRunner.test.log(Status.PASS, "User clicks Sign In");
 	    
 	}
 
@@ -62,6 +50,7 @@ public class RegisterAndLoginSteps extends CommonUtility {
 		
 		click(RegistrationAndLogin_PageObjects.REGISTER_RADIO_BTN,10,driver);
 		click(RegistrationAndLogin_PageObjects.CONTINUE_BTN,10,driver);
+		RegRunner.test.log(Status.PASS, "User select Register and click Continue");
 		
 	    
 	}
@@ -90,6 +79,7 @@ public class RegisterAndLoginSteps extends CommonUtility {
 	    click(RegistrationAndLogin_PageObjects.PRIVACY_POLICY_CHK_BOX,10,driver);
 	    click(RegistrationAndLogin_PageObjects.CONTINUE_BTN,10,driver);
 	    click(RegistrationAndLogin_PageObjects.REG_COMPLETE_CONTINUE,10,driver);
+	    RegRunner.test.log(Status.PASS, "User enters personal information and clicks Register");
 		
 	}
 
@@ -100,26 +90,24 @@ public class RegisterAndLoginSteps extends CommonUtility {
 		String formattedXpath=String.format(xpath,userDetails.get("FirstName"));
 		System.out.println(" After format String " +formattedXpath);
 		assertTrue(validateElementPresent(formattedXpath, driver));
-		
+		 RegRunner.test.log(Status.PASS, "User validates correct name and surname on landing screen");
 	   
 	}
 
 	@When("User adds a product to the cart")
 	public void user_adds_a_product_to_the_cart() throws InterruptedException {
 		driver.navigate().refresh();
-		Thread.sleep(2000);
 		actionMouseHover(driver, HomePage.FRAGRANCE);
-		Thread.sleep(2000);
-		click(HomePage.PRODUCT_MEN,10,driver);
-		Thread.sleep(2000);
-		click(HomePage.ONE_SHOCK,10,driver);	
-	    
+		click(HomePage.PRODUCT_MEN,20,driver);
+		click(HomePage.ONE_SHOCK,20,driver);	
+		RegRunner.test.log(Status.PASS, "User adds a product to the cart");
 	}
 
 	@When("User proceeds to checkout")
 	public void user_proceeds_to_checkout() {
 		
 		click(HomePage.ADD_TO_CART,10,driver);
+		RegRunner.test.log(Status.PASS, "User proceeds to checkout");
 		
 	    
 	}
@@ -128,6 +116,7 @@ public class RegisterAndLoginSteps extends CommonUtility {
 	public void user_continues_till_payments() {
 		
 		click(HomePage.CHECKOUT,10,driver);
+		RegRunner.test.log(Status.PASS, "User continues till payments");
 		
 	
 	}
@@ -137,6 +126,7 @@ public class RegisterAndLoginSteps extends CommonUtility {
 		
 		Assert.assertEquals(getTextFromElement(driver, HomePage.VALIDATE_PRODUCT,10),userDetails.get("PRODUCT"));
 		click(HomePage.ProductConfirm,10,driver);
+		RegRunner.test.log(Status.PASS, "User validates product details on payments page");
 	    
 	}
 

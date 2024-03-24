@@ -1,8 +1,8 @@
-package assignment;
+package pageObjects;
 
 import org.openqa.selenium.By;
 
-public class HomePage {
+public class HomePage{
 	
 	public static final String USER="//div[@class='menu_text' and contains(text(), '%s')]";
 	
