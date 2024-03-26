@@ -1,20 +1,24 @@
 package Utils;
 
 import java.util.Collections;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
+
+/**
+ * @author Girish Kumar
+ *
+ * This class has driver initialization with open browser with capabilities ( options )
+ */ 
 
 public class CucumberRunner {
 	
 	public static WebDriver driver=null;
 	
-	
+	// get chrome driver instance and open the browser with given URL 
 	public static WebDriver getChromeDriver()
 	{
 		WebDriverManager.chromedriver().setup();
@@ -36,8 +40,8 @@ public class CucumberRunner {
         return driver;
 	}
 
-	  
-	  public WebDriver getFirefoxDriver(FirefoxOptions firefoxOptions) {
+	// get firefox driver instance and open the browser with given URL 
+	  public static WebDriver getFirefoxDriver(FirefoxOptions firefoxOptions) {
 		  WebDriverManager.firefoxdriver().setup();
     	System.setProperty("webdriver.gecko.driver", "./DriverExecutable/geckodriver.exe");
         driver=new FirefoxDriver();

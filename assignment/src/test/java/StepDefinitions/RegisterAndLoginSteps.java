@@ -23,7 +23,7 @@ public class RegisterAndLoginSteps extends CommonUtility {
 	  
 	@Given("I read excel file {string} and sheet {string}")
 	public void i_read_excel_file_and_sheet(String excelPath, String sheetName) {
-	    // Write code here that turns the phrase above into concrete actions
+	    // Reading data from Excel ( . xlsx ) file and  hash Map 
 		userDetails = excelFileToMap(excelPath, sheetName);
 		System.out.println(userDetails);
 		RegRunner.test.log(Status.PASS, "i read excel file and sheet");
@@ -33,7 +33,8 @@ public class RegisterAndLoginSteps extends CommonUtility {
 
 	@When("User is on the landing page")
 	public void user_is_on_the_landing_page() {
-		// Get driver and assign it to WebDriver
+		// Get driver and assign it to WebDriver 
+		// Open the Chrome Browser. He we can modify the browser
 	    driver=CucumberRunner.getChromeDriver();
 	    RegRunner.test.log(Status.PASS, "User is on the landing page");
 	}
@@ -99,14 +100,15 @@ public class RegisterAndLoginSteps extends CommonUtility {
 		driver.navigate().refresh();
 		actionMouseHover(driver, HomePage.FRAGRANCE);
 		click(HomePage.PRODUCT_MEN,20,driver);
-		click(HomePage.ONE_SHOCK,20,driver);	
+		click(HomePage.ONE_SHOCK,20,driver);
+		click(HomePage.ADD_TO_CART,10,driver);
 		RegRunner.test.log(Status.PASS, "User adds a product to the cart");
 	}
 
 	@When("User proceeds to checkout")
 	public void user_proceeds_to_checkout() {
 		
-		click(HomePage.ADD_TO_CART,10,driver);
+		click(HomePage.CHECKOUT,10,driver);
 		RegRunner.test.log(Status.PASS, "User proceeds to checkout");
 		
 	    
@@ -115,7 +117,7 @@ public class RegisterAndLoginSteps extends CommonUtility {
 	@When("User continues till payments")
 	public void user_continues_till_payments() {
 		
-		click(HomePage.CHECKOUT,10,driver);
+		Assert.assertEquals(getTextFromElement(driver, HomePage.PAYMENT_PAGE_TITLE, 10).trim(),"CHECKOUT CONFIRMATION");
 		RegRunner.test.log(Status.PASS, "User continues till payments");
 		
 	

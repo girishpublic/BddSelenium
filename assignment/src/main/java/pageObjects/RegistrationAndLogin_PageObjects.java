@@ -2,6 +2,15 @@ package pageObjects;
 
 import org.openqa.selenium.By;
 
+
+/**
+ * class to interact with page
+ * @author Girish Kumar
+ *
+ * This class has web elements of Register or Login which are used by respective step definitions
+ */
+
+
 public class RegistrationAndLogin_PageObjects {
 	
 	public static final By LOGIN_LINK=By.xpath("//div[@id='customernav']/ul/li/a");

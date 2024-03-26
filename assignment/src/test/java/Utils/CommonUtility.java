@@ -25,9 +25,17 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 
+/**
+ * class to define Common Utility methods which are repetitive 
+ * @author Girish Kumar
+ *
+ * This class has a many utility methods such as click, setText(Sendkeys), check visibility etc..  
+ * We can use the methods of this directly by using classname
+ */
+
 public class CommonUtility {
 	
-	
+	// click the element with given implicitly wait duration 
 	public void click(By element,int seconds, WebDriver driver)
 	{
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
@@ -40,6 +48,7 @@ public class CommonUtility {
 		 
 	}
 	
+	// enter the text into textbox with given implicitly wait duration
 	public void setText(By element,int seconds, WebDriver driver, String givenText)
 	{
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
@@ -52,6 +61,7 @@ public class CommonUtility {
 		
 	}
 	
+	// Read the excel (.xlsx ) sheet row by row and add first column as key and second as value
 	public HashMap<String, String >  excelFileToMap(String absolutePathURL, String sheetName )
 	{
 		
@@ -101,13 +111,12 @@ public class CommonUtility {
    public void actionMouseHover(WebDriver driver, By element)
    {
 	   try {
-		   Thread.sleep(1000);
 		   WebElement elementToHover = driver.findElement(element);
 		   WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(10));
 		   wait.until(ExpectedConditions.visibilityOf(elementToHover));
 		   Actions actions = new Actions(driver);
 		   actions.moveToElement(elementToHover).perform();
-		   Thread.sleep(2000);
+		   Thread.sleep(5000);
 		
 	   	} catch (InterruptedException e) {
 		// TODO Auto-generated catch block
@@ -117,17 +126,11 @@ public class CommonUtility {
    
    public String getTextFromElement(WebDriver driver, By element, int timeToWait)
    {
-	   try {
 		   WebElement elementText = driver.findElement(element);
 		   WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(10));
 		   wait.until(ExpectedConditions.visibilityOf(elementText));
-		   Thread.sleep(2000);
 		   return elementText.getText();
-		   	} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		   	}
-	   return "";
+		   
    }
    
    public static String getScreenshot(WebDriver driver, String screenshotName) throws Exception {
@@ -141,6 +144,7 @@ public class CommonUtility {
 		
 	}
    
+   // Get execution results based on ITestResult
    public static void  getExecutionReport(ITestResult res, ExtentTest logger, ExtentReports extent)
    {
 	   try {
@@ -151,21 +155,16 @@ public class CommonUtility {
 			if(status==ITestResult.FAILURE)
 			{
 				
-				
 				logger.log(Status.FAIL, MarkupHelper.createLabel(name, ExtentColor.RED).getMarkup(),MediaEntityBuilder.createScreenCaptureFromBase64String(screenshotPath).build());
-				logger.fail(res.getThrowable());
-				//GenericUtils.getScreenShot(driver,name + " FAIL");
 			}
 			else if(res.getStatus()==ITestResult.SUCCESS)
 			{
 				
 				logger.log(Status.PASS,  MarkupHelper.createLabel(res.getName(), ExtentColor.GREEN).getMarkup(), MediaEntityBuilder.createScreenCaptureFromBase64String(screenshotPath).build());
-				//GenericUtils.getScreenShot(driver,name+" SUCCESS");
 			}
 			else if(status==ITestResult.SKIP)
 			{
 				logger.log(Status.SKIP, MarkupHelper.createLabel(res.getName(), ExtentColor.YELLOW));
-				logger.skip(res.getThrowable());
 			}
 			
 	}
